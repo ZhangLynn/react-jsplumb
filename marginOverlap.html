@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .grand{
+            background-color: red;
+            overflow: auto;
+        }
+        .parent{
+            background-color: cadetblue;
+            width: 100px;
+            overflow: hidden;
+        }
+        .child{
+            margin-top:10px;
+            margin-bottom: 20px;
+            background-color: greenyellow;
+            height: 100px;
+        }
+        .null{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!--子元素有margin-top,测试其对父元素和祖先元素的影响-->
+<div class="grand">
+    <div class="parent">
+        <div class="child" id="getWidth"></div>
+        <div class="null"></div>
+        <!--这里测试空元素的margin会不会重叠-->
+        <div class="child"></div>
+    </div>
+</div>
+</body>
+<script>
+</script>
+</html>
