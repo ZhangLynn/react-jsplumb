@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 10px;
+            padding: 10px;
+        }
+        .vertical-element,.vertical-absolute,.vertical-img,.vertical-multiline-text,.vertical-img-flex,.vertical-img-table,.vertical-absolute-transform{
+            height: 200px;
+            border:1px solid deepskyblue;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <section>
+        <style>
+            .vertical-element{
+                display: flex;
+                align-items: center;
+            }
+            .vertical-element span{
+                height: 10px;
+                border:1px solid darkred;
+            }
+            .vertical-element p{
+                height: 30px;
+                border:1px solid darkred;
+                display: inline-block;
+            }
+            .vertical-element div{
+                height: 60px;
+                border:1px solid darkred;
+                display: inline-block;
+            }
+        </style>
+        <h3>高度不定的元素在父元素中居中</h3>
+        <div class="vertical-element">
+            <span>一个高度为10px的元素</span>
+            <p>一个高度为30px的元素</p>
+            <div>一个高度为60px的元素</div>
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-multiline-text{
+                display: flex;
+                align-items: center;
+            }
+            .vertical-multiline-text span{
+                border:1px solid greenyellow;
+            }
+        </style>
+        <h3>高度不定的多行文字垂直居中</h3>
+        <div class="vertical-multiline-text">
+            <span>第二行<br>第二行</span>
+            <span>123</span>
+            <span>三行<br>三行<br>三行还可以加几行</span>
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-img img{
+                vertical-align:middle;
+                height: 100px;
+            }
+            .vertical-img span{
+                vertical-align:middle;
+                height: 100%;
+                display: inline-block;
+                padding: 0px;
+                margin: 0px;
+            }
+        </style>
+        <h3>高度不定的图片垂直居中:inline-block+vertical-align方法，但是后面要有元素</h3>
+        <div class="vertical-img">
+            <img src="./img/vertical-img.jpg" alt="">
+            <span></span>
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-img-flex{
+                display: flex;
+                align-items: center;
+            }
+            .vertical-img-flex img{
+                height: 100px;
+            }
+        </style>
+        <h3>高度不定的图片垂直居中:flex方法</h3>
+        <div class="vertical-img-flex">
+            <img src="./img/vertical-img.jpg" alt="">
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-img-table{
+                display: table-cell;
+                vertical-align:middle;
+                width: 100%;
+            }
+            .vertical-img-table img{
+                height: 100px;
+            }
+            .vertical-img-table img:last-of-type{
+                height: 50px;
+            }
+        </style>
+        <h3>高度不定的图片垂直居中:table-cell方法</h3>
+        <div class="vertical-img-table">
+            <img src="./img/vertical-img.jpg" alt="">
+            <img src="./img/vertical-img.jpg" alt="">
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-absolute{
+                position:relative;
+            }
+            .vertical-absolute div{
+                width: 100px;
+                height: 100px;
+                border:1px solid greenyellow;
+                position:absolute;
+                left:0;
+                top:0;
+                right: 0;
+                bottom:0;
+                margin: auto;
+            }
+        </style>
+        <h3>绝对定位元素的居中，margin：auto方法</h3>
+        <div class="vertical-absolute">
+            <div>absolute元素</div>
+        </div>
+    </section>
+    <section>
+        <style>
+            .vertical-absolute-transform{
+                position:relative;
+
+            }
+            .vertical-absolute-transform div{
+                width: 100px;
+                height: 100px;
+                border:1px solid greenyellow;
+                position:absolute;
+                left:50%;
+                top:50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
+            }
+        </style>
+        <!--这里不能有margin-->
+        <h3>绝对定位元素的居中，transform方法</h3>
+        <div class="vertical-absolute-transform">
+            <div>absolute元素</div>
+        </div>
+    </section>
+</body>
+</html>
