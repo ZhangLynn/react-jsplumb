@@ -1,8 +1,10 @@
 import React from 'react';
-import {Modal,Input,Button} from 'antd';
+import {Modal,Input,Button,Icon} from 'antd';
 import { jsPlumb } from 'jsplumb';
 import uuidv1 from 'uuid/v1';
 import $ from 'jquery'
+
+
 const DynamicAnchors = ['Left', 'Right', 'Top', 'Bottom']
 const connectorStyle = { stroke: '#7AB02C', strokeWidth: 2, joinstyle: 'round' }
 const connectorHoverStyle = { stroke: '#5c96bc', strokeWidth: 3 }
@@ -77,12 +79,21 @@ export default class RightArea extends React.Component {
               visible: true
           }],
           ["Custom", {
-              create:function(component) {
-                  return $("<button id='overlaybtn'>hhh</button>");
+              create:component=> {
+                  // console.log(component);
+                  function editConnector(component){
+                      console.log(component);
+                  }
+                  return $("<div id='overlaybtn'><i class='icon' onclick=function(component){console.log(component);}>编辑 </i><i class='icon'> 删除</i></div>");
               },
               location:0.7,
               id:"customOverlay",
               // visible:false,
+              events:{
+                click:info=>{
+                    console.log(info);
+                }
+              }
           }]
       ],
     })
@@ -325,4 +336,3 @@ export default class RightArea extends React.Component {
     );
   }
 }
-
