@@ -1,0 +1,126 @@
+.square {
+  position: absolute;
+  z-index: 1000;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #333;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+}
+
+.circle {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+}
+
+.rect {
+  position: absolute;
+  top: 25px;
+  width: 100px;
+  height: 50px;
+  border: 2px solid #333;
+  box-sizing: border-box;
+  font-size: 14px;
+  text-align: center;
+}
+.jsplumb-page {
+  position: relative;
+  .left-area, .right-area {
+    position: relative;
+    height: 500px;
+    box-sizing: border-box;
+    font-size: 0;
+    display: inline-block;
+    border: 1px solid #333;
+    overflow: hidden;
+  }
+  
+  .left-area {
+    width: 20%;
+  }
+  
+  .right-area {
+    width: 75%;
+    margin-left: 5%;
+  }
+
+  
+  
+  .jsp-label {
+    background-color: white;
+    padding: 0.4em;
+    font: 12px sans-serif;
+    color: #444;
+    z-index: 21;
+    border: 1px dotted gray;
+    opacity: 0.8;
+    cursor: pointer;
+  }
+  .jsp-label.jtk-hover {
+    background-color: #5c96bc;
+    color: white;
+    border: 1px solid white;
+  }
+
+  .left-area > .item {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    /*border-bottom: 1px solid #333;*/
+  }
+
+  .center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%,-50%,0);
+    // top: calc(50% - 50px);
+    // left: calc(50% - 50px);
+  }
+
+  .right-area {
+    position: relative;
+  }
+
+  .demo {
+    position: fixed;
+  }
+
+  .node {
+    padding: 0 10px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    text-align: center;
+    cursor: pointer;
+    .delete-btn {
+      color: red;
+      position: absolute;
+      right: -10px;
+      top: -10px;
+      font-size: 14px;
+      border: 1px solid red;
+    }
+  }
+  .bottom-area {
+    width: 100%;
+    border: 1px solid #000;
+    margin-top: 10px;
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+option{
+  font-size: 20px;
+}
+button{
+  font-size: 20px;
+}
