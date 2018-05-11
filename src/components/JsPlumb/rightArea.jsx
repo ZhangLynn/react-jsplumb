@@ -159,6 +159,11 @@ export default class RightArea extends React.Component {
     this.rjsp.draggable(node, {constrain:true});
     this.rjsp.setSuspendDrawing(true);
     DynamicAnchors.map(anchor => this.rjsp.addEndpoint(node, anEndpoint, { anchor }));
+    this.rjsp.addEndpoint("0",{uuid:"ep0_0", isSource:true, isTarget:true});
+    this.rjsp.addEndpoint("1",{uuid:"ep1_0", isSource:true, isTarget:true});
+    this.rjsp.addEndpoint("0",{uuid:"ep1"});
+    this.rjsp.addEndpoint("1",{uuid:"ep2"});
+    this.rjsp.connect({ uuids:["ep1","ep2"] });
     this.rjsp.setSuspendDrawing(false,true);
   }
 
@@ -328,6 +333,10 @@ export default class RightArea extends React.Component {
           ]}>
           <Input placeholder="Basic usage" value={this.state.labelText} onChange={this.changeLabel}/>
         </Modal>
+          <div style={{margin:"20px"}}>
+              <div id="0" className="window" style={{height:"20px"}}>哈哈哈哈</div>
+              <div id="1" className="window" style={{height:"20px"}}>哈哈哈哈</div>
+          </div>
         {this.state.nodes.map((node,index)=>{
          return(
           <div
