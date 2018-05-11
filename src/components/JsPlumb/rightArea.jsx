@@ -84,16 +84,16 @@ export default class RightArea extends React.Component {
                   function editConnector(component){
                       console.log(component);
                   }
-                  return $("<div id='overlaybtn'><i class='icon' onclick=function(component){console.log(component);}>编辑 </i><i class='icon'> 删除</i></div>");
+                  return $("<div id='overlaybtn'><i class='icon' id='editOverlay'>编辑 </i><i class='icon'> 删除</i></div>");
               },
               location:0.7,
               id:"customOverlay",
-              // visible:false,
-              events:{
-                click:info=>{
-                    console.log(info);
-                }
-              }
+              visible:false,
+              // events:{
+              //   click:info=>{
+              //       console.log(info);
+              //   }
+              // }
           }]
       ],
     })
@@ -164,14 +164,16 @@ export default class RightArea extends React.Component {
 
   initEdges = (edges) => {
     this.rjsp.setSuspendDrawing(true);
-
+    let _this=this;
     let connectors=edges.map(edge => this.rjsp.connect(edge, Common))
       connectors.map(connector=>{
-          console.log(connector);
           connector.bind("click",function(){
-          let overlay=connector.getOverlay("customOverlay");
-              console.log(overlay);
-              overlay.hide()
+              let overlay=connector.getOverlay("customOverlay");
+              overlay.show();
+              let editEle=document.getElementById("editOverlay");
+              editEle.addEventListener('click',function(){
+                  _this.rjsp.deleteConnection(connector)
+              })
         })
       })
       // console.log(edges);
@@ -242,7 +244,16 @@ export default class RightArea extends React.Component {
   }
   
   addEdge = (info) => {
-    this.rjsp.connect({ source: info.sourceId, target: info.targetId }, Common);
+      let _this=this;
+    let connector=this.rjsp.connect({ source: info.sourceId, target: info.targetId }, Common);
+      connector.bind("click",function(){
+          let overlay=connector.getOverlay("customOverlay");
+          overlay.show();
+          let editEle=document.getElementById("editOverlay");
+          editEle.addEventListener('click',function(){
+              _this.rjsp.deleteConnection(connector)
+          })
+      })
   }
 
   reload = () => {
