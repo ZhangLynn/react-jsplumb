@@ -5,13 +5,13 @@ import uuidv1 from 'uuid/v1';
 import $ from 'jquery'
 
 
-const DynamicAnchors = ['Left', 'Right', 'Top', 'Bottom']
+const DynamicAnchors = ['Left']
 const connectorStyle = { stroke: '#7AB02C', strokeWidth: 2, joinstyle: 'round' }
 const connectorHoverStyle = { stroke: '#5c96bc', strokeWidth: 3 }
 const endpointStyle = { fill: 'transparent', stroke: '#7AB02C', radius: 7, strokeWidth: 1 }
 const endpointHoverStyle = { fill: '#5c96bc', stroke: '#5c96bc', radius: 7, strokeWidth: 1 }
 const anEndpoint = {
-  connector: 'Flowchart',
+  connector: 'Straight',
   endpoint: 'Dot',
   isSource: true,
   isTarget: true,
@@ -22,12 +22,13 @@ const anEndpoint = {
 }
 const Common = {
   anchor: 'AutoDefault',
-  connector: 'Flowchart',
+  connector: 'Straight',
   endpoint: 'Dot',
   paintStyle: connectorStyle,
   hoverPaintStyle: connectorHoverStyle,
   endpointStyle,
   endpointHoverStyle,
+    MaxConnections:20,
   // overlays:[
   //     ["Custom", {
   //         create:function(component) {
@@ -48,12 +49,16 @@ export default class RightArea extends React.Component {
     labelText: '',
     nodes: [],
     edges: [],
+      datas_right:null,
+      nodes_right:[],
+      edges_right:[],
     info: null,
   }
 
   componentDidMount() {
     this.init();
     this.refs.nodes = [];
+    this.refs.nodes_right=[]
     
   }
   componentWillMount = () => {
@@ -100,7 +105,8 @@ export default class RightArea extends React.Component {
     this.props.jsp.droppable(this.refs.right, { drop: this.jspDrop })
     this.rjsp.bind('beforeDrop', this.jspBeforeDrop);
     // this.rjsp.bind("click",this.showEditConnectionBtn);
-    this.fetchData()
+    this.fetchData();
+      this.fetchDataRight()
   }
 
   fetchData () {
@@ -108,10 +114,16 @@ export default class RightArea extends React.Component {
     var nodeData = JSON.parse( jsonString );
     this.setState({datas:nodeData, nodes: nodeData.nodes, edges: nodeData.edges},() => {
       this.initNodes(this.refs.nodes);
-      this.initEdges(nodeData.edges);
+      // this.initEdges(nodeData.edges);
     });
   }
-
+    fetchDataRight () {
+        var jsonString = '{"nodes":[{"className":"square","id":"64d442f0-3d3a-11e8-bf11-4737b9221c3","text":"11开始","style":{"left":"372px","top":"29px"}},{"className":"circle","id":"6575b310-3d3a-11e8-bf11-4737b922d14c3","text":"过程","style":{"left":"357.515625px","top":"175px"}},{"className":"rect","id":"660cea0f0-3d3a-11e8-bf11-4737b922d1c3","text":"结束","style":{"left":"388.515625px","top":"350px"}}]}';
+        var nodeData = JSON.parse( jsonString );
+        this.setState({datas_right:nodeData, nodes_right: nodeData.nodes},() => {
+            this.initNodes(this.refs.nodes_right,"right");
+        });
+    }
 
   jspBeforeDrop = (info) => {
     info.targetId = info.dropEndpoint.elementId
@@ -155,15 +167,38 @@ export default class RightArea extends React.Component {
     }
   }
 
-  initNodes = (node) => {
+  initNodes = (node,pos) => {
     this.rjsp.draggable(node, {constrain:true});
     this.rjsp.setSuspendDrawing(true);
-    DynamicAnchors.map(anchor => this.rjsp.addEndpoint(node, anEndpoint, { anchor }));
-    this.rjsp.addEndpoint("0",{uuid:"ep0_0", isSource:true, isTarget:true});
-    this.rjsp.addEndpoint("1",{uuid:"ep1_0", isSource:true, isTarget:true});
-    this.rjsp.addEndpoint("0",{uuid:"ep1"});
-    this.rjsp.addEndpoint("1",{uuid:"ep2"});
-    this.rjsp.connect({ uuids:["ep1","ep2"] });
+      let anchor="Right";
+      if(pos==="right"){
+          anchor="Left"
+      }
+      this.rjsp.addEndpoint("64d442f0-3d3a-11e8-bf11-4737b922d1c3",{uuid:"64d442f0-3d3a-11e8-bf11-4737b922d1c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Right"});
+      this.rjsp.addEndpoint("64d442f0-3d3a-11e8-bf11-4737b9221c3",{uuid:"64d442f0-3d3a-11e8-bf11-4737b9221c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Left"});
+      this.rjsp.addEndpoint("6575b310-3d3a-11e8-bf11-4737b922d14c3",{uuid:"6575b310-3d3a-11e8-bf11-4737b922d14c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Left"});
+      // node.map(value=>{
+      //   this.rjsp.addEndpoint(value.id,{
+      //       uuid:value.id,
+      //       connector: 'Straight',
+      //       endpoint: 'Dot',
+      //       isSource: true,
+      //       isTarget: true,
+      //       paintStyle: endpointStyle,
+      //       hoverPaintStyle: endpointHoverStyle,
+      //       connectorStyle: connectorStyle,
+      //       connectorHoverStyle: connectorHoverStyle
+      //   },{anchor})
+      // })
+      // DynamicAnchors.map(anchor => this.rjsp.addEndpoint(node, anEndpoint, { anchor }));
+    //todo 只有下面这行没有dom存在会报错 can not find parentNode of null
+    // this.rjsp.addEndpoint("0",{uuid:"ep0_0", isSource:true, isTarget:true});
+    // this.rjsp.addEndpoint("1",{uuid:"ep1_0", isSource:true, isTarget:true});
+    //   this.rjsp.addEndpoint("2",{uuid:"ep2_0", isSource:true, isTarget:true});
+    // this.rjsp.addEndpoint("0",{uuid:"ep1"});
+    // this.rjsp.addEndpoint("1",{uuid:"ep2"});
+    // this.rjsp.connect({ uuids:["64d442f0-3d3a-11e8-bf11-4737b922d1c3","64d442f0-3d3a-11e8-bf11-4737b9221c3"] });
+      // this.rjsp.connect({ uuids:["64d442f0-3d3a-11e8-bf11-4737b922d1c3","6575b310-3d3a-11e8-bf11-4737b922d14c3"] });
     this.rjsp.setSuspendDrawing(false,true);
   }
 
@@ -250,15 +285,18 @@ export default class RightArea extends React.Component {
   
   addEdge = (info) => {
       let _this=this;
-    let connector=this.rjsp.connect({ source: info.sourceId, target: info.targetId }, Common);
-      connector.bind("click",function(){
-          let overlay=connector.getOverlay("customOverlay");
-          overlay.show();
-          let editEle=document.getElementById("editOverlay");
-          editEle.addEventListener('click',function(){
-              _this.rjsp.deleteConnection(connector)
-          })
-      })
+      console.log(info);
+        this.rjsp.connect({ uuids:[info.sourceId,info.targetId] });
+        // this.rjsp.connect({ source: info.sourceId, target: info.targetId },Common)
+      // let connector=this.rjsp.connect({ source: info.sourceId, target: info.targetId }, Common);
+      // connector.bind("click",function(){
+      //     let overlay=connector.getOverlay("customOverlay");
+      //     overlay.show();
+      //     let editEle=document.getElementById("editOverlay");
+      //     editEle.addEventListener('click',function(){
+      //         _this.rjsp.deleteConnection(connector)
+      //     })
+      // })
   }
 
   reload = () => {
@@ -333,10 +371,11 @@ export default class RightArea extends React.Component {
           ]}>
           <Input placeholder="Basic usage" value={this.state.labelText} onChange={this.changeLabel}/>
         </Modal>
-          <div style={{margin:"20px"}}>
-              <div id="0" className="window" style={{height:"20px"}}>哈哈哈哈</div>
-              <div id="1" className="window" style={{height:"20px"}}>哈哈哈哈</div>
-          </div>
+          {/*<div style={{margin:"20px"}}>*/}
+              {/*<div id="0" className="window window1" style={{height:"20px"}}>哈哈哈哈</div>*/}
+              {/*<div id="1" className="window window2" style={{height:"20px"}}>哈哈哈哈</div>*/}
+              {/*<div id="2" className="window window3" style={{height:"20px"}}>哈哈哈哈</div>*/}
+          {/*</div>*/}
         {this.state.nodes.map((node,index)=>{
          return(
           <div
@@ -352,6 +391,21 @@ export default class RightArea extends React.Component {
           </div>
           )
         })}
+          {this.state.nodes_right.map((node,index)=>{
+              return(
+                  <div
+                      key={index}
+                      className={'node '+node.className}
+                      id={node.id}
+                      ref={nodes=>this.refs.nodes_right[index]=nodes}
+                      style={node.style}
+                      onClick={this.activeElem}
+                  >
+                      {node.text}
+                      <div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>
+                  </div>
+              )
+          })}
       </div>
     );
   }
