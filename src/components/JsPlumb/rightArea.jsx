@@ -59,7 +59,14 @@ export default class RightArea extends React.Component {
     this.init();
     this.refs.nodes = [];
     this.refs.nodes_right=[]
-    
+    let contanier=document.getElementById("contanier");
+    let _this=this;
+    contanier.addEventListener("scroll",function(){
+        // _this.rjsp.repaintEverything()
+    })
+      window.onresize=function () {
+          // _this.rjsp.repaintEverything()
+      }
   }
   componentWillMount = () => {
 
@@ -70,7 +77,9 @@ export default class RightArea extends React.Component {
 
   init = () => {
     this.rjsp = jsPlumb.getInstance({
-      ConnectionOverlays: [
+        Connector: "Straight",
+        Container: "contanier",
+        ConnectionOverlays: [
         ['Arrow', { location: 1, id: 'arrow', width: 11, length: 11 }],
           ["Label", {  //标签参数设置
               location: 0.1,
@@ -89,7 +98,13 @@ export default class RightArea extends React.Component {
                   function editConnector(component){
                       console.log(component);
                   }
-                  return $("<div id='overlaybtn'><i class='icon' id='editOverlay'>编辑 </i><i class='icon'> 删除</i></div>");
+                  let div=document.createElement("div");
+                  div.id="overlaybtn";
+                  div.innerText="wo";
+                  return div;
+                  // console.log(this);
+                  // return render(<div id='overlaybtn'><i class='icon' id='editOverlay'>编辑 </i><i class='icon'> 删除</i></div>);
+                  // return $("<div id='overlaybtn'><i class='icon' id='editOverlay'>编辑 </i><i class='icon'> 删除</i></div>");
               },
               location:0.7,
               id:"customOverlay",
@@ -102,7 +117,7 @@ export default class RightArea extends React.Component {
           }]
       ],
     })
-    this.props.jsp.droppable(this.refs.right, { drop: this.jspDrop })
+    // this.props.jsp.droppable(this.refs.right, { drop: this.jspDrop })
     this.rjsp.bind('beforeDrop', this.jspBeforeDrop);
     // this.rjsp.bind("click",this.showEditConnectionBtn);
     this.fetchData();
@@ -110,7 +125,7 @@ export default class RightArea extends React.Component {
   }
 
   fetchData () {
-    var jsonString = '{"nodes":[{"className":"square","id":"64d442f0-3d3a-11e8-bf11-4737b922d1c3","text":"11开始","style":{"left":"172px","top":"29px"}},{"className":"circle","id":"6575b310-3d3a-11e8-bf11-4737b922d1c3","text":"过程","style":{"left":"157.515625px","top":"175px"}},{"className":"rect","id":"660cea00-3d3a-11e8-bf11-4737b922d1c3","text":"结束","style":{"left":"188.515625px","top":"350px"}}],"edges":[{"source":"64d442f0-3d3a-11e8-bf11-4737b922d1c3","target":"6575b310-3d3a-11e8-bf11-4737b922d1c3","labelText":"sdd"},{"source":"6575b310-3d3a-11e8-bf11-4737b922d1c3","target":"660cea00-3d3a-11e8-bf11-4737b922d1c3","labelText":"sdssd"}]}';
+    var jsonString = '{"nodes":[{"id":"64d442f0-3d3a-11e8-bf11-4737b922d1c3","text":"11开始"},{"id":"64d442f0-3d3a-11e8-bf11-4737b922d31c3","text":"11开始"},{"id":"64d442f0-3d3a-11e8-bwf11-4737b922d1c3","text":"11开始"},{"id":"64d442f0-3d3a-11e8-bf11-4737b92d1c3","text":"11开始"},{"id":"64d442f0-3d3a-11e8-bf11-4737b922d1sc3","text":"11开始"},{"id":"6575b310-3d3a-11e8-bf11-4737b922d1c3","text":"过程"},{"id":"660cea00-3d3a-11e8-bf11-4737b922d1c3","text":"结束"}]}';
     var nodeData = JSON.parse( jsonString );
     this.setState({datas:nodeData, nodes: nodeData.nodes, edges: nodeData.edges},() => {
       this.initNodes(this.refs.nodes);
@@ -118,7 +133,7 @@ export default class RightArea extends React.Component {
     });
   }
     fetchDataRight () {
-        var jsonString = '{"nodes":[{"className":"square","id":"64d442f0-3d3a-11e8-bf11-4737b9221c3","text":"11开始","style":{"left":"372px","top":"29px"}},{"className":"circle","id":"6575b310-3d3a-11e8-bf11-4737b922d14c3","text":"过程","style":{"left":"357.515625px","top":"175px"}},{"className":"rect","id":"660cea0f0-3d3a-11e8-bf11-4737b922d1c3","text":"结束","style":{"left":"388.515625px","top":"350px"}}]}';
+        var jsonString = '{"nodes":[{"className":"square","id":"64d442f0-3d3a-11e8-bf11-4737b9221c3","text":"11开始","style":{"left":"372px","top":"29px"}},{"className":"circle","id":"6575b310-3d3a-11e8-bf11-4737b922d14c3","text":"过程","style":{"left":"357.515625px","top":"1750px"}},{"className":"rect","id":"660cea0f0-3d3a-11e8-bf11-4737b922d1c3","text":"结束","style":{"left":"388.515625px","top":"350px"}}]}';
         var nodeData = JSON.parse( jsonString );
         this.setState({datas_right:nodeData, nodes_right: nodeData.nodes},() => {
             this.initNodes(this.refs.nodes_right,"right");
@@ -168,15 +183,15 @@ export default class RightArea extends React.Component {
   }
 
   initNodes = (node,pos) => {
-    this.rjsp.draggable(node, {constrain:true});
+    // this.rjsp.draggable(node, {constrain:true});
     this.rjsp.setSuspendDrawing(true);
       let anchor="Right";
       if(pos==="right"){
           anchor="Left"
       }
-      this.rjsp.addEndpoint("64d442f0-3d3a-11e8-bf11-4737b922d1c3",{uuid:"64d442f0-3d3a-11e8-bf11-4737b922d1c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Right"});
-      this.rjsp.addEndpoint("64d442f0-3d3a-11e8-bf11-4737b9221c3",{uuid:"64d442f0-3d3a-11e8-bf11-4737b9221c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Left"});
-      this.rjsp.addEndpoint("6575b310-3d3a-11e8-bf11-4737b922d14c3",{uuid:"6575b310-3d3a-11e8-bf11-4737b922d14c3", isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Left"});
+      node.map(value=>{
+          this.rjsp.addEndpoint(value.id,{uuid:value.id, isSource:true, isTarget:true,maxConnections: -1,},{anchor:"Right"})
+      })
       // node.map(value=>{
       //   this.rjsp.addEndpoint(value.id,{
       //       uuid:value.id,
@@ -210,10 +225,10 @@ export default class RightArea extends React.Component {
           connector.bind("click",function(){
               let overlay=connector.getOverlay("customOverlay");
               overlay.show();
-              let editEle=document.getElementById("editOverlay");
-              editEle.addEventListener('click',function(){
-                  _this.rjsp.deleteConnection(connector)
-              })
+              // let editEle=document.getElementById("editOverlay");
+              // editEle.addEventListener('click',function(){
+              //     _this.rjsp.deleteConnection(connector)
+              // })
         })
       })
       // console.log(edges);
@@ -285,18 +300,17 @@ export default class RightArea extends React.Component {
   
   addEdge = (info) => {
       let _this=this;
-      console.log(info);
-        this.rjsp.connect({ uuids:[info.sourceId,info.targetId] });
+        let connector=this.rjsp.connect({ uuids:[info.sourceId,info.targetId] });
         // this.rjsp.connect({ source: info.sourceId, target: info.targetId },Common)
       // let connector=this.rjsp.connect({ source: info.sourceId, target: info.targetId }, Common);
-      // connector.bind("click",function(){
-      //     let overlay=connector.getOverlay("customOverlay");
-      //     overlay.show();
-      //     let editEle=document.getElementById("editOverlay");
-      //     editEle.addEventListener('click',function(){
-      //         _this.rjsp.deleteConnection(connector)
-      //     })
-      // })
+      connector.bind("click",function(){
+          let overlay=connector.getOverlay("customOverlay");
+          overlay.show();
+          // let editEle=document.getElementById("editOverlay");
+          // editEle.addEventListener('click',function(){
+          //     _this.rjsp.deleteConnection(connector)
+          // })
+      })
   }
 
   reload = () => {
@@ -353,59 +367,78 @@ export default class RightArea extends React.Component {
   }
 
   render(){
+    const arr=[1,2,3,4]
     return (
-      <div className="right-area" ref="right">
-        <div  className="demo">
-          <Button type="primary" onClick={this.saveDatas}>保存</Button>
-          <Button type="primary" onClick={this.clearAll}>清除</Button>
+      <div id="contanier" className="right-area" ref="right">
+        <div className="left">
+            {
+              arr.map((value,index)=>{
+                return(
+                    <div className="source">
+                      <div className="title">hhhh</div>
+                        {this.state.nodes.map((node,index)=>{
+                            return(
+                                <div
+                                    key={index}
+                                    className={'node circle'}
+                                    id={node.id}
+                                    ref={nodes=>this.refs.nodes[index]=nodes}
+                                    // style={node.style}
+                                    onClick={this.activeElem}
+                                >
+                                    {node.text+"left"}
+                                    <div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                )
+              })
+            }
+            {/*{this.state.nodes.map((node,index)=>{*/}
+                {/*return(*/}
+                    {/*<div*/}
+                        {/*key={index}*/}
+                        {/*className={'node circle'}*/}
+                        {/*id={node.id}*/}
+                        {/*ref={nodes=>this.refs.nodes[index]=nodes}*/}
+                        {/*// style={node.style}*/}
+                        {/*onClick={this.activeElem}*/}
+                    {/*>*/}
+                        {/*{node.text+"left"}*/}
+                        {/*<div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>*/}
+                    {/*</div>*/}
+                {/*)*/}
+            {/*})}*/}
         </div>
-        <Modal
-          title="编辑连接的文本"
-          visible={this.state.dialogVisible}
-          onCancel={this.hideModal}
-          footer={[
-            <Button key="back" onClick={this.hideModal}>取消</Button>,
-            <Button key="submit" type="primary" onClick={this.saveLabel}>
-              确定
-            </Button>
-          ]}>
-          <Input placeholder="Basic usage" value={this.state.labelText} onChange={this.changeLabel}/>
-        </Modal>
-          {/*<div style={{margin:"20px"}}>*/}
-              {/*<div id="0" className="window window1" style={{height:"20px"}}>哈哈哈哈</div>*/}
-              {/*<div id="1" className="window window2" style={{height:"20px"}}>哈哈哈哈</div>*/}
-              {/*<div id="2" className="window window3" style={{height:"20px"}}>哈哈哈哈</div>*/}
-          {/*</div>*/}
-        {this.state.nodes.map((node,index)=>{
-         return(
-          <div
-            key={index}
-            className={'node '+node.className}
-            id={node.id}
-            ref={nodes=>this.refs.nodes[index]=nodes}
-            style={node.style}
-            onClick={this.activeElem}
-          >
-            {node.text}
-            <div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>
-          </div>
-          )
-        })}
-          {this.state.nodes_right.map((node,index)=>{
-              return(
-                  <div
-                      key={index}
-                      className={'node '+node.className}
-                      id={node.id}
-                      ref={nodes=>this.refs.nodes_right[index]=nodes}
-                      style={node.style}
-                      onClick={this.activeElem}
-                  >
-                      {node.text}
-                      <div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>
-                  </div>
-              )
-          })}
+        <div className="right">
+            {
+                arr.map((value,index)=>{
+                    return(
+                        <div className="source">
+                            <div className="title">hhhh</div>
+                            {this.state.nodes_right.map((node,index)=>{
+                                return(
+                                    <div
+                                        key={index}
+                                        className={'node circle'}
+                                        id={node.id}
+                                        ref={nodes=>this.refs.nodes_right[index]=nodes}
+                                        // style={node.style}
+                                        onClick={this.activeElem}
+                                    >
+                                        {node.text+"right"}
+                                        <div className="delete-btn" onClick={event=>this.deleteNode(event,node)}>X</div>
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    )
+                })
+            }
+
+        </div>
+
       </div>
     );
   }

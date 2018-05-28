@@ -26,8 +26,8 @@ export default class JsPlumb extends React.Component {
     return (
       <div className="jsplumb-page">
         <div>
-          <LeftArea jsp={this.jsp} updatepos={this.updatePositon} />
-          <RightArea jsp={this.jsp} pos={pos} saveDatas={this.saveDatas}/>
+          {/*<LeftArea  />*/}
+          <RightArea />
         </div>
         <BottomArea  datas={datas}/>
       </div>

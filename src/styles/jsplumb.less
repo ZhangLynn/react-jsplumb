@@ -1,5 +1,5 @@
 .square {
-  position: absolute;
+  //position: absolute;
   z-index: 1000;
   width: 100px;
   height: 100px;
@@ -11,7 +11,7 @@
 }
 
 .circle {
-  position: absolute;
+  //position: absolute;
   width: 100px;
   height: 100px;
   border: 2px solid #333;
@@ -19,10 +19,12 @@
   box-sizing: border-box;
   font-size: 14px;
   text-align: center;
+  //margin-top: 450px;
+
 }
 
 .rect {
-  position: absolute;
+  //position: absolute;
   top: 25px;
   width: 100px;
   height: 50px;
@@ -40,7 +42,7 @@
     font-size: 0;
     display: inline-block;
     border: 1px solid #333;
-    overflow: hidden;
+    overflow: auto;
   }
   
   .left-area {
@@ -48,7 +50,7 @@
   }
   
   .right-area {
-    width: 75%;
+    width:50%;
     margin-left: 5%;
   }
 
@@ -139,4 +141,20 @@ option{
 .window1,.window2{
   margin-top: 0px!important;
   padding-top: 200px;
+}
+.right-area{
+}
+.left{
+  float: left;
+  width:45%
+}
+.right{
+  float: right;
+  width:45%
+}
+.title{
+  color: black;
+  height: 100px;
+  width: 100px;
+  background-color: red;
 }
